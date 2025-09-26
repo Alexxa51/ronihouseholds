@@ -1,12 +1,12 @@
 {
-  "name": "project",
+  "name": "ronihouseholds",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Roni Households web application",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:css": "npx tailwindcss -i ./src/tailwind.css -o ./public/css/style.css --watch"
+    "build": "npx tailwindcss -i ./src/tailwind.css -o ./public/css/style.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -26,5 +26,8 @@
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.13"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
