@@ -109,7 +109,7 @@ router.get('/investors', async (req, res) => {
 });
 
 router.get('/home', (req, res) => {
-  res.render('pages/home', { title: 'Home', customStyles: ['/css/main.css', '/css/home.css'] });
+  res.render('pages/home', { title: 'Home', customStyles: ['/css/main.css', '/css/home.css']});
 });
 
 router.get('/', (req, res) => {
