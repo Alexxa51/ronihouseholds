@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/admin-style.css">
+    </head>
+
+<body>
+  <h1>Manage Documents</h1>
+  <form method="GET" action="/admin/documents/view">
+    <label>Select a page:</label>
+    <select name="page">
+      <% pages.forEach(p => { %>
+        <option value="<%= p %>"><%= p %></option>
+      <% }) %>
+    </select>
+    <button type="submit" class="login-button">View Documents</button>
+  </form>
+</body>
+</html>
+

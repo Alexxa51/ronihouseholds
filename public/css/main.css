@@ -1,0 +1,210 @@
+/* ================= Global ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  background-color: #f8f8f8;
+  color: #333;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ================= Header ================= */
+header {
+  background-color: transparent;
+  color: black;
+  padding: 2% 5%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background-color 0.3s ease, padding 0.3s ease;
+}
+
+header.scrolled {
+  background-color: black;
+  color: white;
+  padding: 1rem 2.5rem;
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* allow wrapping on small screens */
+}
+
+/* Logo */
+.logo a {
+  color: white;
+  font-size: 1.25rem; /* scalable */
+  font-weight: bold;
+}
+
+/* ================= Menu ================= */
+.menu {
+  display: flex;
+  gap: 1rem; /* spacing scales */
+  align-items: center;
+}
+
+.menu a {
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: background 0.3s;
+}
+
+.menu a:hover {
+  background: #555;
+}
+
+/* Dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #444;
+  min-width: 15rem;       /* relative size */
+  max-height: 30rem;      /* scrollable if too tall */
+  overflow-y: auto;
+  border-radius: 0.25rem;
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+}
+
+/* Dropdown links */
+.dropdown-content a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: white;
+}
+
+.dropdown-content a:hover {
+  background-color: #666;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* ================= Hamburger ================= */
+.hamburger {
+  display: none;       /* hidden on desktop */
+  font-size: 1.75rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* ================= Footer ================= */
+.footer {
+  background-color: #171616;
+  color: #c3c2c2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 2rem 5%;
+  margin-top: 5%;
+}
+
+.footer h3 {
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.footer p, 
+.footer a {
+  max-width: 100%;
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #c3c2c2;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer .fab {
+  font-size: 1.875rem;
+  padding: 0.25rem;
+}
+
+.footer hr {
+  margin: 1rem 0;
+}
+
+/* ================= Responsive ================= */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .menu {
+    gap: 0.75rem;
+  }
+
+  .logo a {
+    font-size: 1.125rem;
+  }
+
+  .footer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+/* Phones */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .menu {
+    display: none;           /* hidden by default */
+    flex-direction: column;
+    position: absolute;
+    top: 4rem;               /* below nav */
+    left: 0;
+    width: 100%;
+    background: rgba(51, 51, 51, 0.9);
+    padding: 1rem 0;
+  }
+
+  .menu.show {
+    display: flex;           /* show when toggled */
+  }
+
+  .menu a {
+    padding: 1rem;
+    border-bottom: 1px solid #444;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;  /* stack columns */
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .footer h3, 
+  .footer p, 
+  .footer a {
+    margin-left: 0;
+  }
+}

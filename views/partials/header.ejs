@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title : 'Default Title' %></title>
+  <% if (Array.isArray(customStyles)) { %>
+  <% customStyles.forEach(style => { %>
+    <link rel="stylesheet" href="<%= style %>">
+  <% }) %>
+<% } else if (typeof customStyles === 'string') { %>
+  <link rel="stylesheet" href="<%= customStyles %>">
+<% } %>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header id="navbar">
+        <nav>
+          <div class="logo"><a href="/">RoniHouseholds</a></div>
+              <button class="hamburger">&#9776;</button>
+          <div class="menu">
+            <a href="/">Home</a>
+            <a href="/products">Products</a>
+
+            <div class="dropdown">
+              <a href="/investors" class="dropdown-toggle">Investors ▾</a>
+              <div class="dropdown-content">
+                <a href="/investors">Disclosures under Regulation 46 of LODR</a>
+                <a href="/public-issue">Public Issue</a>
+                <a href="/annual-reports">Annual Reports</a>
+                <a href="/annual-return">Annual Return</a>
+                <a href="/annual-general-meeting-agm">Annual General Meeting AGM</a>
+                <a href="/shareholding-pattern-2">Shareholding Pattern</a>
+                <a href="/committees-of-board-2">Committees Of Board</a>
+                <a href="/policies">Policies</a>
+                <a href="/financial-results">Financial Results</a>
+                <a href="/extra-ordinary-general-meeting">Extra-Ordinary General Meeting</a>
+                <a href="/financial-statements-of-subsidiary">Financial Statements Of Subsidiary</a>
+                <a href="/board-meeting">Board Meeting</a>
+                <a href="/newspaper-advertisement">Newspaper Advertisement</a>
+                <a href="/disclosure-under-regulation-30">Disclosure Under Regulation 30</a>
+                <a href="/others">Others</a>
+                <a href="/moa-aoa">MOA / AOA</a>
+                <a href="/company-secretary-rta-details">Company Secretary & RTA Details</a>
+                <a href="/grievance-redressal-2">Grievance Redressal</a>
+              </div>
+            </div>
+
+            <a href="/about">About</a>
+          </div>
+        </nav>
+
+    </header>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.querySelector('.hamburger');
+    const menu = document.querySelector('.menu');
+
+    // Toggle the whole menu on mobile
+    hamburger.addEventListener('click', () => {
+        menu.classList.toggle('show');
+    });
+
+    // Toggle dropdown links on mobile
+    const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            e.preventDefault(); // prevent default link navigation
+            const dropdown = toggle.nextElementSibling;
+            dropdown.classList.toggle('show');
+        });
+    });
+});
+</script>
+
+

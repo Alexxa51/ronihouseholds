@@ -1,0 +1,230 @@
+/* ================= Global ================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    color: rgb(178, 178, 178);
+    background-image: linear-gradient(to right, rgb(10, 58, 63), rgb(23, 67, 83), rgb(27, 103, 79));
+}
+
+/* ================= Headings ================= */
+h1, h2 {
+    text-align: center;
+    color: white;
+    margin: 2rem 0 1rem 0;
+}
+
+h1 {
+    text-shadow: 1px 1px 5px rgba(9, 9, 104, 0.589);
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+/* ================= Form ================= */
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 0.5rem;
+    gap: 1rem;
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.3125rem;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 5px gray;
+    background-color: #fff;
+    font-size: 1rem;
+}
+
+form .login-button, form .delete-button, #upload-button {
+    width: 90%;
+    padding: 0.75rem;
+    border-radius: 0.3125rem;
+    border: none;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+form .login-button {
+    background-color: rgb(22, 22, 181);
+    box-shadow: 1px 5px 10px rgb(2, 2, 96);
+}
+
+form .login-button:hover {
+    box-shadow: 2px 10px 20px rgb(2, 2, 96);
+    background-color: rgb(18, 18, 150);
+}
+
+form .delete-button {
+    background-color: #c0392b;
+    width: 60%;
+    box-shadow: 1px 3px 8px rgba(0,0,0,0.3);
+}
+
+form .delete-button:hover {
+    background-color: #a83226;
+}
+
+#upload-button {
+    background-color: gray;
+    margin-top: 0.5rem;
+}
+
+#upload-button:hover {
+    background-color: darkgray;
+}
+
+/* ================= Dashboard Buttons ================= */
+.dashboard-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 1rem auto;
+}
+
+.dashboard-buttons a {
+    text-decoration: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    background-color: #004080;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-buttons a:hover {
+    background-color: #003366;
+}
+
+/* ================= Lists ================= */
+ul li {
+    padding: 0.625rem;
+    list-style-type: none;
+    margin: 0.25rem auto;
+    border: 1px solid black;
+    border-radius: 0.25rem;
+    max-width: 600px;
+    width: 90%;
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* ================= Back Link ================= */
+.back {
+    text-align: center;
+    margin: 1rem 0;
+}
+
+.back a {
+    text-decoration: none;
+    font-size: 1.25rem;
+    color: black;
+    font-weight: bold;
+}
+
+.back a:hover {
+    text-shadow: 1px 2px 10px rgb(95, 94, 94);
+}
+
+/* ================= Upload File ================= */
+#upload-file {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+}
+
+/* ================= Responsive ================= */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    form {
+        max-width: 60%;
+    }
+
+    ul li {
+        width: 95%;
+    }
+
+    .dashboard-buttons {
+        gap: 0.75rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    form {
+        max-width: 90%;
+        padding: 1rem;
+    }
+
+    .dashboard-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    ul li {
+        width: 95%;
+        font-size: 0.95rem;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    form input, form select, form textarea, form .login-button, form .delete-button, #upload-button {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    .dashboard-buttons a {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    ul li {
+        font-size: 0.85rem;
+    }
+}

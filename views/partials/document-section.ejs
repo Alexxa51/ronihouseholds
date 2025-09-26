@@ -1,0 +1,17 @@
+<section class="document-section">
+  <h2><%= sectionTitle %></h2>
+  <table>
+    <thead><tr><th>Caption</th><th>View</th></tr></thead>
+    <tbody>
+      <% files.forEach(file => { %>
+        <tr>
+          <td><%= file.title %></td>
+          <td>
+            <a href="/uploads/<%= file.filename %>" target="_blank">View</a> |
+            <a href="/uploads/<%= file.filename %>" download>Download</a>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>

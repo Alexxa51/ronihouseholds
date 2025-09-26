@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/admin-style.css">
+    </head>
+    <body>
+      <h2>Documents for "<%= page %>"</h2>
+        <ul>
+          <% files.forEach(file => { %>
+            <li>
+              <strong><%= file.title %></strong>
+              <a href="/uploads/<%= file.filename %>" target="_blank">View</a>
+              <form method="POST" action="/admin/delete/<%= file._id %>" style="display:inline;" class="delete-button">
+                <button type="submit" onclick="return confirm('Delete this document?')" class="delete-button">Delete</button>
+              </form>
+            </li>
+          <% }) %>
+        </ul>
+
+        <div class="back"><a href="/admin/documents">Back to page selector</a></div>
+
+    </body>
+</html>

@@ -1,0 +1,86 @@
+<%- include('../partials/header') %>
+
+<main>
+  <section class="hero">
+  <h1>PRODUCTS</h1>
+  </section>
+  <!-- Your Section -->
+  <section class="image-text-section">
+    <div class="image-text-container">
+    <!-- Left side (images) -->
+      <div class="images">
+        <img src="/images/2.png" alt="Image 1">
+        <img src="/images/1.png" alt="Image 2">
+      </div>
+
+    <!-- Right side (descriptions) -->
+      <div class="descriptions">
+        <div class="desc-item">
+          <h3>Plastic Granules</h3>
+          <p>We offer a wide range of plastic granules which are used by various Plastic Industries to manufacture different end products</p>
+        </div>
+        <div class="desc-item">
+          <h3>Other Households Plastic products</h3>
+          <p>We also offer plastic households items</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <h1>Our Products</h1>
+  <section class="images-gallery">
+    <img src="images/3.png" class="zoomable">
+    <img src="images/4.png"class="zoomable">
+    <img src="images/5.png"class="zoomable">
+    <img src="images/6.png"class="zoomable">
+    <img src="images/7.png"class="zoomable">
+    <img src="images/8.png"class="zoomable">
+    <img src="images/9.png"class="zoomable">
+    <img src="images/10.png"class="zoomable">
+    <img src="images/11.png"class="zoomable">
+    <img src="images/12.png"class="zoomable">
+    <img src="images/13.png"class="zoomable">
+    <img src="images/14.png"class="zoomable">
+    <img src="images/15.png"class="zoomable">
+    <img src="images/16.png"class="zoomable">
+    <img src="images/17.png"class="zoomable">
+    <img src="images/18.png"class="zoomable">
+    <img src="images/19.png"class="zoomable">
+    <img src="images/20.png"class="zoomable">
+    <img src="images/21.png"class="zoomable">
+    <img src="images/22.png"class="zoomable">
+    <img src="images/23.png"class="zoomable">
+    <img src="images/24.png"class="zoomable">
+    <img src="images/25.png"class="zoomable">
+    <img src="images/26.png"class="zoomable">
+    <img src="images/27.png"class="zoomable">
+    <img src="images/28.png"class="zoomable">
+    <img src="images/29.png"class="zoomable">
+    <img src="images/30.png"class="zoomable">
+    <img src="images/31.png"class="zoomable">
+    <img src="images/32.png"class="zoomable">
+  </section>
+  <div id="overlay">
+    <img id="overlay-img" src="" alt="Zoomed Image">
+  </div>
+
+</main>
+<script>
+  const zoomableImages = document.querySelectorAll(".zoomable");
+  const overlay = document.getElementById("overlay");
+  const overlayImg = document.getElementById("overlay-img");
+
+  zoomableImages.forEach(img => {
+    img.addEventListener("click", () => {
+      overlay.style.display = "flex";
+      overlayImg.src = img.src;
+    });
+  });
+
+  // Click on overlay to close
+  overlay.addEventListener("click", () => {
+    overlay.style.display = "none";
+    overlayImg.src = "";
+  });
+</script>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,214 @@
+/* ================= Paragraphs ================= */
+p {
+  margin-bottom: 10px;
+}
+
+/* ================= Product Cards ================= */
+.product-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.product-card img {
+  max-width: 100%;
+  width: 200px; /* desktop size */
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.product-card:hover {
+  box-shadow: 0 0.25rem 0.9rem rgba(0,0,0,0.2);
+}
+
+/* ================= Forms ================= */
+form {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  max-width: 500px;
+  margin: 1.25rem auto;
+  box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,0.1);
+}
+
+form input, form textarea, form select, form button {
+  width: 100%;
+  padding: 0.625rem;
+  margin-bottom: 0.9375rem;
+  border-radius: 0.3125rem;
+  border: 1px solid #ccc;
+}
+
+form button {
+  background-color: #004080;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+form button:hover {
+  background-color: #003366;
+}
+
+/* ================= Hero ================= */
+.hero {
+  height: 50vh;
+  background-image: url('/images/about-background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+}
+
+/* ================= Headings ================= */
+h4 {
+  font-size: 2rem;
+}
+
+/* ================= Description Section ================= */
+.description {
+  width: 30%;          /* desktop width */
+  margin-left: 50%;
+  padding: 4rem;
+  color: black;
+  text-align: left;
+}
+
+/* ================= Two Columns ================= */
+.two-columns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.left, .right {
+  flex: 1;
+  text-align: center;
+  padding: 0 4rem;
+}
+
+/* ================= Division ================= */
+.division {
+  margin: 0 20%;
+  text-align: left;
+  padding: 4rem 0;
+  font-weight: bold;
+  font-size: 1.0625rem; /* ~17px */
+}
+
+hr {
+  width: 50px;
+  height: 3px;
+  color: gray;
+  background-color: gray;
+}
+
+/* ================= Tables ================= */
+td, th {
+  border: 1px solid rgb(144, 142, 142);
+  padding: 0.3125rem;
+  border-radius: 0.3125rem;
+  box-shadow: 1px 1px 5px rgb(86, 86, 86);
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+/* ================= Team Cards ================= */
+.team-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  padding-top: 1.875rem;
+}
+
+.team-cards div {
+  border: 1px solid black;
+  max-width: 600px;
+  margin: 0 auto;
+  border-radius: 0.3125rem;
+  box-shadow: 1px 1px 10px rgb(86, 86, 86);
+  padding: 1.25rem;
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 1024px) {
+  .description {
+    width: 50%;
+    margin-left: 25%;
+    padding: 2rem;
+  }
+
+  .two-columns {
+    gap: 1rem;
+  }
+
+  .left, .right {
+    padding: 0 2rem;
+  }
+
+  .team-cards {
+    grid-template-columns: 1fr; /* stack on tablets */
+    gap: 2rem;
+  }
+
+  .product-card img {
+    width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .description {
+    width: 90%;
+    margin-left: 0;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .two-columns {
+    flex-direction: column; /* stack columns on mobile */
+    text-align: center;
+  }
+
+  .left, .right {
+    padding: 0 1rem;
+  }
+
+  .team-cards {
+    grid-template-columns: 1fr; /* single column */
+    padding: 1rem;
+  }
+
+  .product-card {
+    width: 100%;
+  }
+
+  .form-container form {
+    width: 90%;
+    margin: 1rem auto;
+  }
+}
+
+@media (max-width: 480px) {
+  h4 {
+    font-size: 1.5rem;
+  }
+
+  .product-card img {
+    width: 120px;
+  }
+}

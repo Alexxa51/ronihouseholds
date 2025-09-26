@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/admin-style.css">
+</head>
+<body>
+<form method="POST" action="/admin/upload" enctype="multipart/form-data">
+  <h1>Upload File</h1>
+  <input type="file" name="file" required id="upload-file" />
+  
+  <input type="text" name="title" placeholder="Display name for the file" required style="padding: 1rem; margin-bottom: 1rem;" />
+
+  <select name="page" required>
+    <option value="investors">Investors</option>
+    <option value="public-issue">Public Issue</option>
+    <option value="annual-reports">Annual Reports</option>
+    <option value="annual-return">Annual Return</option>
+    <option value="annual-general-meeting-agm">Annual General Meeting (AGM)</option>
+    <option value="shareholding-pattern-2">Shareholding Pattern</option>
+    <option value="committees-of-board-2">Committees Of Board</option>
+    <option value="policies">Policies</option>
+    <option value="financial-results">Financial Results</option>
+    <option value="extra-ordinary-general-meeting">Extra-Ordinary General Meeting</option>
+    <option value="financial-statements-of-subsidiary">Financial Statements Of Subsidiary</option>
+    <option value="board-meeting">Board Meeting</option>
+    <option value="newspaper-advertisement">Newspaper Advertisement</option>
+    <option value="disclosure-under-regulation-30">Disclosure Under Regulation 30</option>
+    <option value="others">Others</option>
+    <option value="moa-aoa">MOA / AOA</option>
+    <option value="company-secretary-rta-details">Company Secretary RTA Details</option>
+    <option value="grievance-redressal-2">Grievance Redressal</option>
+    <option value="statement-of-deviation-2">Statement Of Deviation</option>
+  </select>
+
+  <button type="submit" id="upload-button">Upload</button>
+</form>
+</body>
+</html>

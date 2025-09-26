@@ -1,0 +1,13 @@
+<%- include('../partials/header') %>
+<section class="hero">
+  <h1>Disclosures under Regulation 46 of LODR</h1>
+</section>
+
+<% Object.keys(grouped).forEach(page => { 
+     const sectionTitle = page.replace(/-/g, ' ').toUpperCase(); 
+%>
+  <%- include('../partials/document-section', { sectionTitle, files: grouped[page] }) %>
+<% }) %>
+
+
+<%- include('../partials/footer') %>
