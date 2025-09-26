@@ -30,9 +30,31 @@ const pages = [
 // Dynamically create routes for each page
 pages.forEach(page => {
   router.get(`/${page}`, async (req, res) => {
-    const files = await File.find({ page });
-    res.render(`pages/${page}`, { files });
+    try {
+      const files = await File.find({ page }).sort({ uploadedAt: -1 });
+
+      // Generate a readable title (replace "-" with space, uppercase words)
+      const pageTitle = page.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+      // Base styles (main.css) + page-specific CSS if it exists
+      const styles = ['/css/main.css'];
+      styles.push(`/css/${page}.css`);
+
+      res.render(`pages/${page}`, { 
+        title: pageTitle,
+        customStyles: styles,
+        files
+      });
+    } catch (err) {
+      console.error(`Error rendering page ${page}:`, err);
+      res.status(500).send("Server error");
+    }
   });
+});
+
+// Root route → redirect to /home
+router.get('/', (req, res) => {
+  res.redirect('/home');
 });
 
 module.exports = router;
