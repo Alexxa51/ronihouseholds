@@ -5,7 +5,6 @@ const path = require('path');
 const fs = require('fs');
 
 const File = require('../models/File');
-const Product = require('../models/Product'); // Make sure this exists
 const isAdmin = require('../middlewares/auth');
 
 // Multer setup for file uploads
