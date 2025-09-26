@@ -1,95 +1,60 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const File = require('../models/File');
-const isAdmin = require('../middlewares/auth');
 const path = require('path');
 const fs = require('fs');
 
+const File = require('../models/File');
+const Product = require('../models/Product'); // Make sure this exists
+const isAdmin = require('../middlewares/auth');
 
+// Multer setup for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'public/uploads'),
   filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
 });
 const upload = multer({ storage });
 
-router.get('/login', (req, res) => res.render('admin/login'));
-
-router.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  if (!req.body || !req.body.username || !req.body.password) {
-    return res.status(400).send('Missing login credentials');
-  }
-
-  if (username === 'admin' && password === 'admin') {
-    req.session.adminId = 'admin';
-    return res.redirect('/admin/dashboard');
-  }
-  
-  res.render('admin/login', { error: 'Invalid credentials' });
-});
-
-router.get('/dashboard', isAdmin, (req, res) => {
-  res.render('admin/dashboard');
-});
-
-router.get('/upload', isAdmin, (req, res) => {
-  res.render('admin/upload');
-});
-
-router.post('/upload', isAdmin, upload.single('file'), async (req, res) => {
-  const { page, title } = req.body;
-  const filename = req.file.filename;
-
-  await File.create({ filename, page, title, customStyles: ['/css/admin-style'] });
-  res.redirect('/admin/dashboard');
-});
-
-router.get('/documents', isAdmin, async (req, res) => {
-  const pages = [
-    'investors', 'public-issue', 'annual-reports', 'annual-return',
-    'annual-general-meeting-agm', 'shareholding-pattern-2', 'committees-of-board-2',
-    'policies', 'financial-results', 'extra-ordinary-general-meeting',
-    'financial-statements-of-subsidiary', 'board-meeting', 'newspaper-advertisement',
-    'disclosure-under-regulation-30', 'others', 'moa-aoa',
-    'company-secretary-rta-details', 'grievance-redressal-2', 'statement-of-deviation-2'
-  ];
-  res.render('admin/documents', { pages });
-});
-
-router.get('/documents/view', isAdmin, async (req, res) => {
-  const { page } = req.query;
-  const files = await File.find({ page }).sort({ uploadedAt: -1 });
-
-  const checkedFiles = files.map(file => {
-    const filePath = path.join(__dirname, '../public/uploads', file.filename);
-    return {
-      ...file._doc,
-      exists: fs.existsSync(filePath)
-    };
-  });
-
-  res.render('admin/documents-view', { page, files: checkedFiles });
-});
-
-router.post('/delete/:id', isAdmin, async (req, res) => {
-  try {
-    const file = await File.findById(req.params.id);
-    if (!file) return res.status(404).send('File not found in database');
-
-    const filePath = path.join(__dirname, '../public/uploads', file.filename);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+// Helper function to render pages with files, title, and styles
+const renderPage = (pageName, pageTitle, extraStyles = []) => {
+  return async (req, res) => {
+    try {
+      const files = await File.find({ page: pageName }).sort({ uploadedAt: -1 });
+      const customStyles = ['/css/main.css', ...extraStyles];
+      res.render(`pages/${pageName}`, { title: pageTitle, files, customStyles });
+    } catch (err) {
+      console.error(`Error rendering page ${pageName}:`, err);
+      res.status(500).send('Server error');
     }
+  };
+};
 
-    await File.findByIdAndDelete(req.params.id);
-    res.redirect(`/admin/documents/view?page=${file.page}`);
+// -------------------- Public Routes --------------------
+
+// Root → redirect to /home
+router.get('/', (req, res) => res.redirect('/home'));
+
+// Home
+router.get('/home', renderPage('home', 'Home', ['/css/home.css']));
+
+// About
+router.get('/about', renderPage('about', 'About Us', ['/css/about.css']));
+
+// Products
+router.get('/products', renderPage('products', 'Products', ['/css/products.css']));
+
+router.post('/products/upload', async (req, res) => {
+  try {
+    const { name, image } = req.body;
+    await Product.create({ name, image });
+    res.redirect('/products');
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error deleting file');
+    res.status(500).send('Error saving product');
   }
 });
 
+// Investors (special: grouped files)
 router.get('/investors', async (req, res) => {
   try {
     const excludedPages = ['home', 'about', 'products'];
@@ -101,71 +66,101 @@ router.get('/investors', async (req, res) => {
       grouped[file.page].push(file);
     });
 
-    res.render('pages/investors', { title: 'Investors', grouped, customStyles: ['/css/main.css', '/css/investors.css', '/css/financial.css'] });
+    const customStyles = ['/css/main.css', '/css/investors.css', '/css/financial.css'];
+    res.render('pages/investors', { title: 'Investors', grouped, customStyles });
   } catch (err) {
-    console.error('Error fetching files:', err);
+    console.error('Error fetching investor files:', err);
     res.status(500).send('Server error');
   }
 });
 
-router.get('/home', (req, res) => {
-  res.render('pages/home', { title: 'Home', customStyles: ['/css/main.css', '/css/home.css']});
+// Dynamically render other pages using helper
+const dynamicPages = [
+  'public-issue', 'annual-reports', 'annual-return',
+  'annual-general-meeting-agm', 'shareholding-pattern-2', 'committees-of-board-2',
+  'policies', 'financial-results', 'extra-ordinary-general-meeting',
+  'financial-statements-of-subsidiary', 'board-meeting', 'newspaper-advertisement',
+  'disclosure-under-regulation-30', 'others', 'moa-aoa',
+  'company-secretary-rta-details', 'grievance-redressal-2', 'statement-of-deviation-2'
+];
+
+dynamicPages.forEach(page => {
+  const title = page.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  router.get(`/${page}`, renderPage(page, title, ['/css/financial.css']));
 });
 
-router.get('/', (req, res) => {
-  res.render('pages/home', { title: 'Home', customStyles: ['/css/main.css', '/css/home.css']});
+// -------------------- Admin Routes --------------------
+
+// Login
+router.get('/admin/login', (req, res) => res.render('admin/login'));
+
+router.post('/admin/login', (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) return res.status(400).send('Missing credentials');
+
+  if (username === 'admin' && password === 'admin') {
+    req.session.adminId = 'admin';
+    return res.redirect('/admin/dashboard');
+  }
+
+  res.render('admin/login', { error: 'Invalid credentials' });
 });
 
-router.get('/about', (req, res) => {
-  res.render('pages/about', { title: 'About Us', customStyles: ['/css/main.css', '/css/about.css']});
-});
-router.get('/products', (req, res) => {
-  res.render('pages/products', { title: 'Products', customStyles: ['/css/main.css', '/css/products.css']});
+// Dashboard
+router.get('/admin/dashboard', isAdmin, (req, res) => res.render('admin/dashboard'));
+
+// Upload files
+router.get('/admin/upload', isAdmin, (req, res) => res.render('admin/upload'));
+
+router.post('/admin/upload', isAdmin, upload.single('file'), async (req, res) => {
+  try {
+    const { page, title } = req.body;
+    await File.create({ filename: req.file.filename, page, title, customStyles: ['/css/admin-style'] });
+    res.redirect('/admin/dashboard');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error uploading file');
+  }
 });
 
-router.post('/products/upload', (req, res) => {
-  const { name, image } = req.body;
-  // Save to MongoDB
-  Product.create({ name, image })
-    .then(() => res.redirect('/products'))
-    .catch(err => res.status(500).send(err.message));
+// View documents
+router.get('/admin/documents', isAdmin, (req, res) => {
+  const pages = dynamicPages.concat(['investors']);
+  res.render('admin/documents', { pages });
 });
 
-// Helper function
-const renderPage = (pageName, pageTitle) => {
-  return async (req, res) => {
-    try {
-      const files = await File.find({ page: pageName }).sort({ uploadedAt: -1 });
-      res.render(`pages/${pageName}`, {
-        title: pageTitle,
-        files,
-        customStyles: ['/css/main.css', '/css/financial.css']
-      });
-    } catch (err) {
-      console.error('Error: ', err);
-      res.status(500).send('Server error');
-    }
-  };
-};
+router.get('/admin/documents/view', isAdmin, async (req, res) => {
+  try {
+    const { page } = req.query;
+    const files = await File.find({ page }).sort({ uploadedAt: -1 });
 
-// Routes using the helper
-router.get('/grievance-redressal-2', renderPage('grievance-redressal-2', 'Grievance Redressal'));
-router.get('/statement-of-deviation-2', renderPage('statement-of-deviation-2', 'Statement of Deviation'));
-router.get('/financial-results', renderPage('financial-results', 'Financial Results'));
-router.get('/extra-ordinary-general-meeting', renderPage('extra-ordinary-general-meeting', 'Extra Ordinary General Meeting'));
-router.get('/financial-statements-of-subsidiary', renderPage('financial-statements-of-subsidiary', 'Financial Statements of Subsidiary'));
-router.get('/board-meeting', renderPage('board-meeting', 'Board Meeting'));
-router.get('/newspaper-advertisement', renderPage('newspaper-advertisement', 'Newspaper Advertisement'));
-router.get('/disclosure-under-regulation-30', renderPage('disclosure-under-regulation-30', 'Disclosure Under Regulation 30'));
-router.get('/others', renderPage('others', 'Others'));
-router.get('/public-issue', renderPage('public-issue', 'Public Issue'));
-router.get('/annual-reports', renderPage('annual-reports', 'Annual Reports'));
-router.get('/annual-return', renderPage('annual-return', 'Annual Return'));
-router.get('/annual-general-meeting-agm', renderPage('annual-general-meeting-agm', 'Annual General Meeting (AGM)'));
-router.get('/shareholding-pattern-2', renderPage('shareholding-pattern-2', 'Shareholding Pattern'));
-router.get('/committees-of-board-2', renderPage('committees-of-board-2', 'Committees of Board'));
-router.get('/policies', renderPage('policies', 'Policies'));
-router.get('/company-secretary-rta-details', renderPage('company-secretary-rta-details', 'Company Secretary RTA Details'));
-router.get('/moa-aoa', renderPage('moa-aoa', 'MOA / AOA'));
+    const checkedFiles = files.map(file => ({
+      ...file._doc,
+      exists: fs.existsSync(path.join(__dirname, '../public/uploads', file.filename))
+    }));
+
+    res.render('admin/documents-view', { page, files: checkedFiles });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error fetching documents');
+  }
+});
+
+// Delete file
+router.post('/admin/delete/:id', isAdmin, async (req, res) => {
+  try {
+    const file = await File.findById(req.params.id);
+    if (!file) return res.status(404).send('File not found');
+
+    const filePath = path.join(__dirname, '../public/uploads', file.filename);
+    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+
+    await File.findByIdAndDelete(req.params.id);
+    res.redirect(`/admin/documents/view?page=${file.page}`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error deleting file');
+  }
+});
 
 module.exports = router;
