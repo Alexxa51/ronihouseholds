@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><%= typeof title !== 'undefined' ? title : 'Default Title' %></title>
-  <% if (Array.isArray(customStyles)) ? customStyles : [];{ %>
-  <% customStyles.forEach(style => { %>
-    <link rel="stylesheet" href="<%= style %>">
-  <% }) %>
-<% } else if (typeof customStyles === 'string') { %>
-  <link rel="stylesheet" href="<%= customStyles %>">
-<% } %>
+  <% 
+  const styles = Array.isArray(customStyles) ? customStyles : 
+                 (typeof customStyles === 'string' ? [customStyles] : []); 
+%>
+
+<% styles.forEach(style => { %>
+  <link rel="stylesheet" href="<%= style %>">
+<% }) %>
+
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
