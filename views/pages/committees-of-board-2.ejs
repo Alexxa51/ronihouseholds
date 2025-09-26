@@ -1,4 +1,5 @@
-<%- include('../partials/header', { customStyles: customStyles }) %>
+<% const styles = typeof customStyles !== 'undefined' ? customStyles : ['/css/main.css', '/css/financial.css']; %>
+<%- include('../partials/header', { customStyles: styles }) %>
 <section class="hero">
   <h1>Committees Of Board</h1>
 </section>

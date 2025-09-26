@@ -1,4 +1,6 @@
-<%- include('../partials/header', { customStyles: customStyles }) %>
+<% const styles = typeof customStyles !== 'undefined' ? customStyles : ['/css/main.css', '/css/about.css']; %>
+
+<%- include('../partials/header', { customStyles: styles }) %>
 <main>
   <section class="hero"><h1>About Us</h1></section>
   <section class="description">
